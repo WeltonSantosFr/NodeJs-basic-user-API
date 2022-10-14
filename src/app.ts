@@ -1,10 +1,9 @@
-import "reflect-metadata"
-import express from "express"
+import "reflect-metadata";
+import express from "express";
+import userRouter from "./routes/user.routes";
 
+const app = express();
+app.use(express.json());
+app.use(userRouter);
 
-
-const app = express()
-app.use(express.json())
-
-
-export default app
+export default app;

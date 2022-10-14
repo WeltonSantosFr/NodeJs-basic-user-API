@@ -1,12 +1,10 @@
-import * as express from "express"
+import { IUserRequest } from "./../../interfaces/users/index";
+import * as express from "express";
 
 declare global {
-    namespace Express {
-        interface Request {
-            user: {
-                id: string
-                isAdm: boolean
-            }
-        }
+  namespace Express {
+    interface Request {
+      user: IUserRequest;
     }
+  }
 }

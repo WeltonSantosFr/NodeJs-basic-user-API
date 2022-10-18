@@ -13,7 +13,7 @@ export const ensureAdmin = async (
         throw new Error("Must be an Admin");
       }
     }
-    if (request.method === "PATCH" || request.method === "DELETE") {
+    if (request.method === "PATCH") {
       const { id } = request.params;
 
       const userRepository = AppDataSource.getRepository(User);
@@ -21,6 +21,12 @@ export const ensureAdmin = async (
 
       if (request.user.isAdm === false && request.user.email !== user!.email) {
         throw new Error("Must be an Admin to update other users");
+      }
+    }
+
+    if (request.method === "DELETE") {
+      if (!request.user.isAdm) {
+        throw new Error("Must be an Admin");
       }
     }
     next();

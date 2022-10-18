@@ -7,7 +7,6 @@ const userUpdateService = async (
   { name, email, password, isAdm }: IUserUpdate,
   id: string
 ) => {
-  console.log(name, email, password, isAdm);
   const userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOne({ where: { id } });
 

@@ -8,19 +8,27 @@ export const ensureAdmin = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = request.params;
+    if (request.method === "GET") {
+      if (request.user.isAdm === false) {
+        throw new Error("Must be an Admin");
+      }
+    }
+    if (request.method === "PATCH") {
+      const { id } = request.params;
 
-    const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOne({ where: { id } });
+      const userRepository = AppDataSource.getRepository(User);
+      const user = await userRepository.findOne({ where: { id } });
 
-    if (request.user.isAdm === false && request.user.email !== user?.email) {
-      throw new Error("Must be an Admin to update other users");
+      if (request.user.isAdm === false && request.user.email !== user!.email) {
+        throw new Error("Must be an Admin to update other users");
+      }
     }
 
-    if (request.user.isAdm === false) {
-      throw new Error("Must be an Admin");
+    if (request.method === "DELETE") {
+      if (!request.user.isAdm) {
+        throw new Error("Must be an Admin");
+      }
     }
-
     next();
   } catch (error) {
     if (error instanceof Error) {

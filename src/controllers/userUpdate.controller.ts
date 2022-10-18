@@ -30,7 +30,7 @@ const userUpdateController = async (request: Request, response: Response) => {
           .status(403)
           .send({ error: error.name, message: error.message });
       }
-      console.log(error.name, error.message);
+
       return response
         .status(401)
         .send({ error: error.name, message: error.message });
